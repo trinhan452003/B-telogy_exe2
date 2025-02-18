@@ -2,37 +2,35 @@ package biteology.project.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
-@Entity
-@Table(name = "food")
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "Food")
 @AllArgsConstructor
-public class Food {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Food extends AbstractAuditingEntity<String> {
 
     @Column(nullable = false, unique = true)
-    private String name;
+    String name;
 
     @Column(columnDefinition = "TEXT")
-    private String description;
+    String description;
 
     @Column(name = "image_url")
-    private String imageUrl;
+    String imageUrl;
 
     @ManyToMany
     @JoinTable(
-            name = "food_disease",
+            name = "Food_Disease",
             joinColumns = @JoinColumn(name = "food_id"),
             inverseJoinColumns = @JoinColumn(name = "disease_id")
     )
-    private Set<Disease> diseases = new HashSet<>();
+    Set<Disease> diseases = new HashSet<>();
 }
