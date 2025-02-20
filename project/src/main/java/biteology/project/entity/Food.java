@@ -26,7 +26,7 @@ public class Food extends AbstractAuditingEntity<String> {
     @Column(name = "image_url")
     String imageUrl;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "Food_Disease",
             joinColumns = @JoinColumn(name = "food_id"),

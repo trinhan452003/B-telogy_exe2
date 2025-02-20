@@ -71,9 +71,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + account.getRole().name());
             authentication = new UsernamePasswordAuthenticationToken(account, null, Collections.singletonList(authority) );
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            authentication.setAuthenticated(true);
         }
-
         return authentication;
 
     }

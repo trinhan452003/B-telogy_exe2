@@ -1,5 +1,6 @@
 package biteology.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,6 +24,7 @@ public class Disease extends AbstractAuditingEntity<String> {
     @Column(columnDefinition = "TEXT")
     String description;
 
-    @ManyToMany(mappedBy = "diseases")
+    @ManyToMany(mappedBy = "diseases", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     Set<Food> foods = new HashSet<>();
 }

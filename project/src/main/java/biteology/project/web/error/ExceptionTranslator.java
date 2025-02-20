@@ -2,6 +2,7 @@ package biteology.project.web.error;
 
 import biteology.project.web.error.ExceptionDefine.AuthenticationException;
 import biteology.project.web.error.ExceptionDefine.BusinessException;
+import biteology.project.web.error.ExceptionDefine.ConflictException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
@@ -35,6 +36,12 @@ public class ExceptionTranslator implements ResponseErrorHandler {
     private ResponseEntity<ErrorResponse> usernameExist(ErrorResponse result){
         return new ResponseEntity<>(result, HttpStatus.CONFLICT);
     }
+
+    private ResponseEntity<ErrorResponse> conflict(ErrorResponse result){
+        return new ResponseEntity<>(result, HttpStatus.CONFLICT);
+    }
+
+
 
 
     @ExceptionHandler(BusinessException.class)
@@ -75,6 +82,17 @@ public class ExceptionTranslator implements ResponseErrorHandler {
         return usernameExist(
                 new ErrorResponse(ErrorConstant.UNAUTHORIZED.getCode(),
                         "Authentication exception", map)
+        );
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    ResponseEntity<ErrorResponse> handleConflictException(ConflictException ex) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("service", ex.getMessage());
+        return usernameExist(
+                new ErrorResponse(ErrorConstant.UNAUTHORIZED.getCode(),
+                        "Conflict and constraint exception", map)
         );
     }
 

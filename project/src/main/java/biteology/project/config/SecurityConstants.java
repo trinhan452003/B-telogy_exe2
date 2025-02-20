@@ -9,6 +9,7 @@ public class SecurityConstants {
             "/api/auth/register",
             "/api/auth/verifyAccount",
             "/swagger-ui/**",
+            "/api/disease",
             "/v3/api-docs/**"
     );
 

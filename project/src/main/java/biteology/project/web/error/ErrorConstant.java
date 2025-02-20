@@ -13,4 +13,7 @@ public class ErrorConstant {
 
     //auth
     public static final MessageCode UNAUTHORIZED  = new MessageCode("401", "Unauthorized");
+
+    //constraint
+    public static final MessageCode CONFLICT  = new MessageCode("401", "Conflict");
 }
