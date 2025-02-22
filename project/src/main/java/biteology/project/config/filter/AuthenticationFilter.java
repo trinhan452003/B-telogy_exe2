@@ -33,15 +33,17 @@ import java.util.Collections;
 @Configuration
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-
 public class AuthenticationFilter extends OncePerRequestFilter {
-
     SecurityProperties securityProperties;
     AccountRepository accountRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(SecurityConstants.PUBLIC_URIS.contains(request.getRequestURI())){
-            filterChain.doFilter(request,response);
+
+        String requestURI = request.getRequestURI();
+        boolean isPublic = SecurityConstants.PUBLIC_URIS.stream()
+                .anyMatch(pattern -> requestURI.matches(pattern.replace("*", ".*")));
+        if (isPublic) {
+            filterChain.doFilter(request, response);
         }else{
             final var authentication = getAuthentication(request, response);
             if (!ObjectUtils.isEmpty(authentication)) {

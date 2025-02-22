@@ -5,6 +5,7 @@ import biteology.project.dto.request.DiseaseDTORequest;
 import biteology.project.dto.response.Response;
 import biteology.project.service.DiseaseService;
 import biteology.project.web.controller.DiseaseController;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,15 @@ public class DiseaseControllerImpl implements DiseaseController {
         return Response.noContent();
     }
 
+
     @Override
     public Response<DiseaseDTORequest> updateSet(DiseaseDTORequest dto) {
         return null;
+    }
+
+    @Override
+    public Response<?> getFoodsByADisease(@NonNull String diseaseId) {
+        log.info("=================Request Get Food For  Diseases =================");
+        return Response.ok(diseaseService.getFoodsForADisease(diseaseId));
     }
 }

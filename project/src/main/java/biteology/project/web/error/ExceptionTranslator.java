@@ -3,6 +3,7 @@ package biteology.project.web.error;
 import biteology.project.web.error.ExceptionDefine.AuthenticationException;
 import biteology.project.web.error.ExceptionDefine.BusinessException;
 import biteology.project.web.error.ExceptionDefine.ConflictException;
+import biteology.project.web.error.ExceptionDefine.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
@@ -52,6 +53,17 @@ public class ExceptionTranslator implements ResponseErrorHandler {
         return internalServerError(
                 new ErrorResponse(ErrorConstant.SERVICE_ERROR.getCode(),
                         ErrorConstant.SERVICE_ERROR.getMessage(), map)
+        );
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    ResponseEntity<ErrorResponse> handleBusinessException(NotFoundException ex) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("service", ex.getMessage());
+        return notFound(
+                new ErrorResponse(ErrorConstant.NOT_FOUND.getCode(),
+                        ErrorConstant.NOT_FOUND.getMessage(), map)
         );
     }
 

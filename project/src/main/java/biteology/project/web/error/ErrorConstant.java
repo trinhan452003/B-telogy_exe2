@@ -16,4 +16,7 @@ public class ErrorConstant {
 
     //constraint
     public static final MessageCode CONFLICT  = new MessageCode("401", "Conflict");
+
+    //NotFound
+    public static final MessageCode NOT_FOUND  = new MessageCode("404", "NOT FOUND");
 }

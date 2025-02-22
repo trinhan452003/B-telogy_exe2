@@ -2,11 +2,16 @@ package biteology.project.service.impl;
 
 
 import biteology.project.dto.request.DiseaseDTORequest;
+import biteology.project.dto.response.FoodDTOResponse;
 import biteology.project.entity.Disease;
+import biteology.project.entity.Food;
 import biteology.project.mapper.DiseaseMapper;
+import biteology.project.mapper.FoodMapper;
 import biteology.project.repository.DiseaseRepository;
 import biteology.project.service.DiseaseService;
+
 import biteology.project.web.error.ExceptionDefine.ConflictException;
+import biteology.project.web.error.ExceptionDefine.NotFoundException;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -24,7 +30,8 @@ import java.util.List;
 public class DiseaseServiceImpl implements DiseaseService {
 
     DiseaseRepository _repo;
-    private final DiseaseMapper diseaseMapper;
+    DiseaseMapper diseaseMapper;
+    FoodMapper foodMapper;
 
     @Override
     public List<Disease> getAllDiseases() {
@@ -45,6 +52,15 @@ public class DiseaseServiceImpl implements DiseaseService {
     @Override
     public void deleteDiseases(@NonNull List<String> ids) {
         _repo.deleteAllByIdInBatch(ids);
+    }
+
+    @Override
+    public Set<FoodDTOResponse> getFoodsForADisease(@NonNull String id) {
+         Disease disease = _repo.findById(id) .orElseThrow(()->
+                 new NotFoundException(HttpStatus.NOT_FOUND.getReasonPhrase(), "Id not found"));
+        Set<Food> newSet = disease.getFoods();
+         return foodMapper.toDto(newSet);
+
     }
 
 

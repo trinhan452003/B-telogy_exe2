@@ -4,6 +4,7 @@ package biteology.project.web.controller;
 import biteology.project.dto.request.DiseaseDTORequest;
 import biteology.project.dto.response.Response;
 import jakarta.validation.Valid;
+import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,4 +29,8 @@ public interface DiseaseController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     Response<DiseaseDTORequest> updateSet(@RequestBody final DiseaseDTORequest dto);
 
+
+    @GetMapping("/{diseaseId}/foods")
+    @ResponseStatus(HttpStatus.OK)
+    Response<?> getFoodsByADisease(@NonNull @PathVariable final String diseaseId);
 }

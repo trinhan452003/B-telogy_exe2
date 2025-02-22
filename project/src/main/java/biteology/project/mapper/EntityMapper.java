@@ -4,6 +4,7 @@ package biteology.project.mapper;
 import org.mapstruct.*;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EntityMapper<D,E> {
 
@@ -15,6 +16,7 @@ public interface EntityMapper<D,E> {
     E toEntity(D d);
 
     List<D> toDto(List<E> e);
+    Set<D> toDto(Set<E> e);
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     List<E> toEntity(List<D> d);
 

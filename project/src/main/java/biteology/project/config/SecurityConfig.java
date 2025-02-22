@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
@@ -45,15 +46,18 @@ public class SecurityConfig {
                         auth ->
                                 auth.requestMatchers(
                                         SecurityConstants.PUBLIC_URIS.toArray(String[]::new)).permitAll()
+                                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/disease/**/foods")).permitAll()
                                         .requestMatchers(HttpMethod.POST, "/api/disease/createDisease").hasRole("DOCTOR")
                                         .requestMatchers(HttpMethod.DELETE, "/api/disease/deleteDisease").hasRole("DOCTOR")
+                                        .requestMatchers(HttpMethod.DELETE, "/api/food/deleteFoods").hasRole("DOCTOR")
+                                        .requestMatchers(HttpMethod.POST, "/api/food/createFood").hasRole("DOCTOR")
+                                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/food/**/assignDiseaseForAFood")).hasRole("DOCTOR")
                                         .anyRequest()
                                         .authenticated()
                 )
         ;
         return http.build();
     }
-
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector){
         return new MvcRequestMatcher.Builder(introspector);
