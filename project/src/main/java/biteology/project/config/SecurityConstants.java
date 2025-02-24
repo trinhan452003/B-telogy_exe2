@@ -8,11 +8,12 @@ public class SecurityConstants {
             "/api/auth/login",
             "/api/auth/register",
             "/api/auth/verifyAccount",
-            "/swagger-ui/**",
+            "/swagger-ui/*",
             "/api/disease",
-            "/v3/api-docs/**",
-            "/api/disease/.*/foods",
-            "/api/food"
+            "/v3/api-docs",
+            "/v3/api-docs/*"
+//            "/api/disease/.*/foods",
+//            "/api/food"
     );
 
 

@@ -37,29 +37,38 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        http.csrf(AbstractHttpConfigurer:: disable)
-                .cors(AbstractHttpConfigurer:: disable)
-                .httpBasic(AbstractHttpConfigurer:: disable)
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(
-                        auth ->
-                                auth.requestMatchers(
-                                        SecurityConstants.PUBLIC_URIS.toArray(String[]::new)).permitAll()
-                                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/disease/**/foods")).permitAll()
-                                        .requestMatchers(HttpMethod.POST, "/api/disease/createDisease").hasRole("DOCTOR")
-                                        .requestMatchers(HttpMethod.DELETE, "/api/disease/deleteDisease").hasRole("DOCTOR")
-                                        .requestMatchers(HttpMethod.DELETE, "/api/food/deleteFoods").hasRole("DOCTOR")
-                                        .requestMatchers(HttpMethod.POST, "/api/food/createFood").hasRole("DOCTOR")
-                                        .requestMatchers(AntPathRequestMatcher.antMatcher("/api/food/**/assignDiseaseForAFood")).hasRole("DOCTOR")
-                                        .anyRequest()
-                                        .authenticated()
-                )
-        ;
+                .authorizeHttpRequests(auth -> auth
+                        // ✅ Cho phép truy cập Swagger UI và API docs mà không cần xác thực
+                        .requestMatchers(mvc.pattern("/swagger-ui/**")).permitAll()
+                        .requestMatchers(mvc.pattern("/swagger-ui.html")).permitAll()
+                        .requestMatchers(mvc.pattern("/v3/api-docs/**")).permitAll()
+
+                        // ✅ Các API công khai
+                        .requestMatchers(SecurityConstants.PUBLIC_URIS.toArray(String[]::new)).permitAll()
+                        .requestMatchers(mvc.pattern("/api/disease/**/foods")).permitAll()
+
+                        // 🔒 API cần quyền "DOCTOR"
+                        .requestMatchers(HttpMethod.POST, "/api/disease/createDisease").hasRole("DOCTOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/disease/deleteDisease").hasRole("DOCTOR")
+                        .requestMatchers(HttpMethod.DELETE, "/api/food/deleteFoods").hasRole("DOCTOR")
+                        .requestMatchers(HttpMethod.POST, "/api/food/createFood").hasRole("DOCTOR")
+                        .requestMatchers(mvc.pattern("/api/food/**/assignDiseaseForAFood")).hasRole("DOCTOR")
+
+                        // 🔒 Còn lại phải xác thực
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
+
     @Bean
     MvcRequestMatcher.Builder mvc(HandlerMappingIntrospector introspector){
         return new MvcRequestMatcher.Builder(introspector);
     }
+
+
 }
