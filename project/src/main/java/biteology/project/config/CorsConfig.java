@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
 public class CorsConfig implements WebMvcConfigurer {
 
     @Bean
@@ -16,11 +15,10 @@ public class CorsConfig implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // Áp dụng cho tất cả API
-                        .allowedOriginPatterns("*") // Cho phép mọi domain truy cập
+                registry.addMapping("/**")
+                        .allowedOrigins("https://b-telogyexe2-production.up.railway.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .exposedHeaders("Authorization") // Đảm bảo Swagger đọc được token nếu cần
                         .allowCredentials(true);
             }
         };
