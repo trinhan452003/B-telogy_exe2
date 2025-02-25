@@ -8,12 +8,14 @@ import biteology.project.service.AuthenticationService;
 import biteology.project.web.controller.AuthController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class AuthControllerImpl implements AuthController {
 
     private final AuthenticationService authenticationService;
