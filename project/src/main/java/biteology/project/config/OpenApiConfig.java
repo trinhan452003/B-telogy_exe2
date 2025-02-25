@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,7 +26,8 @@ public class OpenApiConfig {
     @Bean
    public OpenAPI openAPI(){
 
-        return new OpenAPI().info(new Info().title("Biteology").version("1.0"));
+        return new OpenAPI().info(new Info().title("Biteology").version("1.0"))
+                .addServersItem(new Server().url("https://b-telogyexe2-production.up.railway.app"));
     }
 
 
