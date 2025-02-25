@@ -17,7 +17,7 @@ public class CorsConfig implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // Áp dụng cho tất cả API
-                        .allowedOrigins("https://b-telogyexe2-production.up.railway.app/swagger-ui/index.html") // Cho phép mọi domain truy cập
+                        .allowedOriginPatterns("*") // Cho phép mọi domain truy cập
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .exposedHeaders("Authorization") // Đảm bảo Swagger đọc được token nếu cần
@@ -26,3 +26,4 @@ public class CorsConfig implements WebMvcConfigurer {
         };
     }
 }
+
