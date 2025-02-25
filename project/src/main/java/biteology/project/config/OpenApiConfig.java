@@ -27,7 +27,8 @@ public class OpenApiConfig {
    public OpenAPI openAPI(){
 
         return new OpenAPI().info(new Info().title("Biteology").version("1.0"))
-                .addServersItem(new Server().url("https://b-telogyexe2-production.up.railway.app"));
+                .addServersItem(new Server().url("https://b-telogyexe2-production.up.railway.app"))
+                .addServersItem(new Server().url("http://localhost:8080"));
     }
 
 

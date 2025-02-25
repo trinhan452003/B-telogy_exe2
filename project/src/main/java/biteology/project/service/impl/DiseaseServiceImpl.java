@@ -12,6 +12,8 @@ import biteology.project.service.DiseaseService;
 
 import biteology.project.web.error.ExceptionDefine.ConflictException;
 import biteology.project.web.error.ExceptionDefine.NotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +29,19 @@ import java.util.Set;
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+
 public class DiseaseServiceImpl implements DiseaseService {
 
     DiseaseRepository _repo;
     DiseaseMapper diseaseMapper;
     FoodMapper foodMapper;
 
+
     @Override
     public List<Disease> getAllDiseases() {
         return _repo.findAll();
     }
+
 
     @Override
     public DiseaseDTORequest createADisease(@NonNull DiseaseDTORequest dtoRequest) {
@@ -49,10 +54,12 @@ public class DiseaseServiceImpl implements DiseaseService {
 
     }
 
+
     @Override
     public void deleteDiseases(@NonNull List<String> ids) {
         _repo.deleteAllByIdInBatch(ids);
     }
+
 
     @Override
     public Set<FoodDTOResponse> getFoodsForADisease(@NonNull String id) {

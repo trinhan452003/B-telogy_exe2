@@ -10,6 +10,8 @@ import biteology.project.repository.DiseaseRepository;
 import biteology.project.repository.FoodRepository;
 import biteology.project.service.FoodService;
 import biteology.project.web.error.ExceptionDefine.NotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -34,15 +36,18 @@ public class FoodServiceImpl implements FoodService {
     FoodMapper foodMapperResponse;
     FoodMapperRequest foodMapperRequest;
 
+
     @Override
     public List<Food> getAllFoods() {
         return _repo.findAll();
     }
 
+
     @Override
     public void deleteFoods(@NonNull List<String> ids) {
         _repo.deleteAllByIdInBatch(ids);
     }
+
 
     @Override
     public FoodDTOResponse createAFood(FoodDTORequest foodDTORequest) {
@@ -51,6 +56,8 @@ public class FoodServiceImpl implements FoodService {
         return foodMapperResponse.toDto(_repo.save(newFood));
 
     }
+
+
 
     @Override
     @Transactional
