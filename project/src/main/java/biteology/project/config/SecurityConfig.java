@@ -50,7 +50,7 @@ public class SecurityConfig {
 
                         // ✅ Các API công khai
                         .requestMatchers(SecurityConstants.PUBLIC_URIS.toArray(String[]::new)).permitAll()
-                        .requestMatchers(mvc.pattern("/api/disease/**/foods")).permitAll()
+                        .requestMatchers(mvc.pattern("/api/disease/{id}/foods")).permitAll()
 
                         // 🔒 API cần quyền "DOCTOR"
                         .requestMatchers(HttpMethod.POST, "/api/disease/createDisease").hasRole("DOCTOR")
