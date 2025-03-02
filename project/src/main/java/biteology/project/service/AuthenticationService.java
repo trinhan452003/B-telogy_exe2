@@ -7,5 +7,7 @@ import biteology.project.entity.Account;
 public interface AuthenticationService {
 
     Account register(LoginRegisterRequest request);
+    Account registerAsDoctor(LoginRegisterRequest request);
     LoginResponse login(LoginRegisterRequest request);
+
 }

@@ -7,6 +7,7 @@ public class SecurityConstants {
     public static final List<String> PUBLIC_URIS = List.of(
             "/api/auth/login",
             "/api/auth/register",
+            "/api/auth/registerAsDoctor",
             "/api/auth/verifyAccount",
             "/swagger-ui/*",
             "/api/disease",

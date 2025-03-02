@@ -18,4 +18,7 @@ public interface AuthController {
     @PostMapping("/login")
     Response<?> login(@Valid @RequestBody LoginRegisterRequest loginRequest);
 
+    @PostMapping("/registerAsDoctor")
+    Response<?> registerAsDoctor(@Valid @RequestBody LoginRegisterRequest registerRequestRequest);
+
 }

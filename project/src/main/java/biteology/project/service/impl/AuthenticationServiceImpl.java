@@ -59,6 +59,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    public Account registerAsDoctor(LoginRegisterRequest request) {
+        if(accountRepository.findByEmail(request.getEmail()).isPresent()){
+            throw new AuthenticationException(HttpStatus.OK.getReasonPhrase(), "Username already exists");
+        }
+        final var newAccount = Account.builder()
+                .email(request.getEmail())
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
+                .role(AccountRole.DOCTOR)
+                .status(AccountStatus.ACTIVE)
+                .uuid(UUID.randomUUID().toString())
+                .build();
+
+
+        //userProfile
+        UserProfile userProfile = new UserProfile();
+        userProfile.setAccount(newAccount);
+        newAccount.setProfile(userProfile);
+
+        accountRepository.save(newAccount);
+        return newAccount;
+    }
+
+    @Override
     public LoginResponse login(LoginRegisterRequest request) {
         final var account = accountRepository.findByEmail(request.getEmail())
                 .orElseThrow(()-> new AuthenticationException(HttpStatus.OK.getReasonPhrase(), "Email not found"));

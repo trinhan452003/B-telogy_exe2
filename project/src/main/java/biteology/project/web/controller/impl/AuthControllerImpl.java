@@ -38,4 +38,11 @@ public class AuthControllerImpl implements AuthController {
         log.info("=================Request Login For User : {} =================", loginRequest.getEmail());
         return Response.ok(authenticationService.login(loginRequest));
     }
+    @Operation(summary = "Register as a Doctor", description = "Create a new account and also create an user profile for that account as Role DOCTOR ")
+    @Override
+    public Response<?> registerAsDoctor(LoginRegisterRequest registerRequest) {
+        log.info("=================Request Register Doctor For User : {} =================", registerRequest.getEmail());
+
+        return Response.created(authenticationService.registerAsDoctor(registerRequest));
+    }
 }
