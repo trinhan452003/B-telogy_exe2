@@ -1,6 +1,5 @@
 package biteology.project.web.controller.impl;
 
-import biteology.project.dto.request.FoodDTORequest;
 import biteology.project.dto.response.Response;
 import biteology.project.service.FoodService;
 import biteology.project.web.controller.FoodController;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -44,9 +44,10 @@ public class FoodControllerImpl implements FoodController {
 
     @Override
     @Operation(summary = "Create a food", description = "Create a food (need ROLE DOCTOR)")
-    public Response<?> createAFood(FoodDTORequest foodDTORequest) {
+    public Response<?> createAFood(String name, String description, MultipartFile imageUrl) {
         log.info("=================Request Create A Food =================");
-        return Response.created(foodService.createAFood(foodDTORequest));
+
+        return Response.created(foodService.createAFood(name, description, imageUrl));
     }
 
     @Override

@@ -14,7 +14,8 @@ public class SecurityConstants {
             "/v3/api-docs",
             "/v3/api-docs/*",
             "/api/disease/.*/foods",
-            "/api/food"
+            "/api/food",
+            "/upload"
     );
 
 

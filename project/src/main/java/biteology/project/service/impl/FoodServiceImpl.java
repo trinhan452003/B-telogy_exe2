@@ -10,8 +10,6 @@ import biteology.project.repository.DiseaseRepository;
 import biteology.project.repository.FoodRepository;
 import biteology.project.service.FoodService;
 import biteology.project.web.error.ExceptionDefine.NotFoundException;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +35,7 @@ public class FoodServiceImpl implements FoodService {
     DiseaseRepository _diseaseRepo;
     FoodMapper foodMapperResponse;
     FoodMapperRequest foodMapperRequest;
-
+    SupabaseService supabaseService;
 
     @Override
     public List<Food> getAllFoods() {
@@ -50,10 +50,24 @@ public class FoodServiceImpl implements FoodService {
 
 
     @Override
-    public FoodDTOResponse createAFood(FoodDTORequest foodDTORequest) {
-        final Food newFood = foodMapperRequest.toEntity(foodDTORequest);
+    @Transactional
+    public FoodDTOResponse createAFood(String name, String description, MultipartFile imageUrl) {
+        try{
+            String imageUrlFinal = supabaseService.uploadImage(imageUrl);
 
-        return foodMapperResponse.toDto(_repo.save(newFood));
+            FoodDTORequest foodBuilder = FoodDTORequest.builder()
+                    .description(description)
+                    .imageUrl(imageUrlFinal)
+                    .name(name)
+                    .build();
+
+            final Food newFood = foodMapperRequest.toEntity(foodBuilder);
+
+            return foodMapperResponse.toDto(_repo.save(newFood));
+        }catch (IOException e){
+            throw new RuntimeException("Upload image failed!", e);
+        }
+
 
     }
 

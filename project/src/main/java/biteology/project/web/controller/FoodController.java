@@ -3,11 +3,12 @@ package biteology.project.web.controller;
 
 import biteology.project.dto.request.FoodDTORequest;
 import biteology.project.dto.response.Response;
-import biteology.project.entity.Disease;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -23,9 +24,11 @@ public interface FoodController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     Response<Void> deleteFoods(@RequestBody final List<String> ids);
 
-    @PostMapping("/createFood")
+    @PostMapping(value = "/createFood", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    Response<?> createAFood(@RequestBody @Valid final FoodDTORequest foodDTORequest);
+    Response<?> createAFood( @RequestPart("name") String name,
+                             @RequestPart("description") String description,
+                             @RequestPart("imageUrl") MultipartFile imageUrl);
 
     @PostMapping("/{foodId}/assignDiseaseForAFood")
     @ResponseStatus(HttpStatus.OK)
