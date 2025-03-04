@@ -1,8 +1,10 @@
 package biteology.project.service.impl;
 
 
+import biteology.project.common.utils.ContextHolderUtils;
 import biteology.project.dto.request.DiseaseDTORequest;
 import biteology.project.dto.response.FoodDTOResponse;
+import biteology.project.entity.Account;
 import biteology.project.entity.Disease;
 import biteology.project.entity.Food;
 import biteology.project.mapper.DiseaseMapper;
@@ -20,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

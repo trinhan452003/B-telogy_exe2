@@ -1,7 +1,9 @@
 package biteology.project.service.impl;
 
+import biteology.project.common.utils.ContextHolderUtils;
 import biteology.project.dto.request.FoodDTORequest;
 import biteology.project.dto.response.FoodDTOResponse;
+import biteology.project.entity.Account;
 import biteology.project.entity.Disease;
 import biteology.project.entity.Food;
 import biteology.project.mapper.FoodMapper;
@@ -62,7 +64,6 @@ public class FoodServiceImpl implements FoodService {
                     .build();
 
             final Food newFood = foodMapperRequest.toEntity(foodBuilder);
-
             return foodMapperResponse.toDto(_repo.save(newFood));
         }catch (IOException e){
             throw new RuntimeException("Upload image failed!", e);

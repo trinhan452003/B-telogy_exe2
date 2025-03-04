@@ -64,7 +64,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/disease/deleteDisease").hasRole("DOCTOR")
                         .requestMatchers(HttpMethod.DELETE, "/api/food/deleteFoods").hasRole("DOCTOR")
                         .requestMatchers(HttpMethod.POST, "/api/food/createFood").hasRole("DOCTOR")
-                        .requestMatchers(mvc.pattern("/api/food/**/assignDiseaseForAFood")).hasRole("DOCTOR")
+                        .requestMatchers(mvc.pattern("/api/food/{id}/assignDiseaseForAFood")).hasRole("DOCTOR")
 
                         // 🔒 Còn lại phải xác thực
                         .anyRequest().authenticated()

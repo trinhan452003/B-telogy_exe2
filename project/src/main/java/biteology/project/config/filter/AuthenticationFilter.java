@@ -42,6 +42,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         boolean isPublic = SecurityConstants.PUBLIC_URIS.stream()
                 .anyMatch(pattern -> requestURI.matches(pattern.replace("*", ".*")));
+
+        System.out.println("Request URI: " + request.getRequestURI());
+        System.out.println("Is public: " + isPublic);
+
         if (isPublic) {
             filterChain.doFilter(request, response);
         }else{
@@ -68,7 +72,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 return null;
             }
             final var uuid = JwtUtils.getUserUuidFromJWTToken(token, securityProperties.getJwtSecret());
-            final var account = this.accountRepository.findByUuid(uuid)
+            final var account = this.accountRepository.findById(uuid)
                     .orElseThrow(EntityNotFoundException::new);
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + account.getRole().name());
             authentication = new UsernamePasswordAuthenticationToken(account, null, Collections.singletonList(authority) );
